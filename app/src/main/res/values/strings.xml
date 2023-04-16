@@ -12,4 +12,17 @@
     <string name="fragment_profile_full_name">Bui Tan Sang</string>
     <string name="fragment_profile_arrow_button">arrow_button</string>
     <string name="fragment_profile_edit_button">edit_button</string>
+    <string name="fragment_home_my_balance">My Balance</string>
+    <string name="fragment_home_money">$34.234.00</string>
+    <string name="fragment_home_top_up">Top Up</string>
+    <string name="fragment_home_2_hrs">2 Hrs</string>
+    <string name="fragment_home_order_status">Processed at sort facility</string>
+    <string name="fragment_home_service_and_product">Service and Product</string>
+    <string name="fragment_home_others">Others</string>
+    <string name="fragment_home_wallet">Wallet</string>
+    <string name="fragment_home_help_center">Help Center</string>
+    <string name="fragment_home_order">Order</string>
+    <string name="fragment_home_nearby_drop">Nearby Drop</string>
+    <string name="fragment_home_check_rates">Check Rates</string>
+    <string name="fragment_home_enter_track_number">Enter track number</string>
 </resources>
