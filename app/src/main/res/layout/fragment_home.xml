@@ -15,20 +15,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="316dp"
+        android:layout_height="306dp"
         android:orientation="vertical"
         android:background="@color/light_mode_blue"
         >
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_right_rectangle"
             android:layout_gravity="center_vertical"
             />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_left_rectangle"
             android:layout_gravity="center_vertical"
@@ -48,7 +48,7 @@
             >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
                 android:layout_gravity="center_vertical"
@@ -56,8 +56,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="E"
+                    android:text="@string/fragment_home_e_title"
                     android:textColor="@color/orange"
                     android:textSize="20sp"
                     android:layout_marginEnd="5dp"
@@ -65,8 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="MarketGo"
+                    android:text="@string/fragment_home_market_go_title"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     />
@@ -82,7 +80,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:padding="20dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="140dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background"
             android:layout_marginStart="15dp"
@@ -98,7 +96,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:text="@string/fragment_home_my_balance"
                     android:textColor="@color/gray_900"
                     android:textSize="12sp"
@@ -106,7 +103,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:text="@string/fragment_home_money"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/black"
@@ -142,7 +138,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
-            android:layout_marginTop="240dp"
+            android:layout_marginTop="230dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_background_orange"
             android:layout_marginStart="15dp"
@@ -191,7 +187,7 @@
             android:layout_marginBottom="18dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Features"/>
+            android:text="@string/fragment_home_features"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -365,6 +361,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/order_detail"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
@@ -389,13 +386,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MM09132005"/>
+                        android:text="@string/order_id"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_900"
-                        android:text="fragment_home_order_status"/>
+                        android:text="@string/fragment_home_order_status"/>
 
 
                 </LinearLayout>
@@ -435,13 +432,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MM09132005"/>
+                        android:text="@string/order_id"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_900"
-                        android:text="fragment_home_order_status"/>
+                        android:text="@string/fragment_home_order_status"/>
 
 
                 </LinearLayout>
@@ -481,13 +478,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MM09132005"/>
+                        android:text="@string/order_id"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_900"
-                        android:text="fragment_home_order_status"/>
+                        android:text="@string/fragment_home_order_status"/>
 
 
                 </LinearLayout>
@@ -527,7 +524,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MM09132005"/>
+                        android:text="@string/order_id"/>
 
                     <TextView
                         android:layout_width="wrap_content"
