@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } else {
                 emailLayout.setErrorEnabled(false);
-                emailLayout.setBoxStrokeColor(getResources().getColor(R.color.PRIMARY));
+                emailLayout.setBoxStrokeColor(getResources().getColor(R.color.BLACK));
             }
         });
 

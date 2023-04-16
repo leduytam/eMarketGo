@@ -9,7 +9,7 @@
     <color name="white">#FFFFFF</color>
 
     <color name="black">#000000</color>
-    <color name="primary">#FF8D4ED5</color>
+    <color name="primary">#1D272F</color>
     <color name="primary_dark">#FF3700B3</color>
     <color name="gray_100">#FFFAFAFA</color>
     <color name="gray_200">#FFF5F5F5</color>
@@ -19,9 +19,12 @@
     <color name="gray_600">#FFA9A9A9</color>
     <color name="gray_700">#FF696969</color>
     <color name="gray_800">#FF424242</color>
+    <color name="gray_900">#A7A9B7</color>
+    <color name="light_mode_blue">#1D272F</color>
 
     <color name="dusk_yellow">#FFFFC120</color>
     <color name="danger">#FFFE3A30</color>
+    <color name="orange">#FD683D</color>
 
     <color name="BACKGROUND_DEFAULT">#ffffff</color>
     <color name="GRAY_100">#F3F3F3</color>
@@ -40,7 +43,7 @@
     <color name="YELLOW_DARK">#FBBC05</color>
     <color name="INFO_DARK">#2464A4</color>
     <color name="PRIMARY_DARK">#37BED6</color>
-    <color name="PRIMARY">#8D4ED5</color>
+    <color name="PRIMARY">#FD683D</color>
     <color name="ERROR">#EC1C24</color>
     <color name="ERROR_DARK">#DE2060</color>
     <color name="LOSS">#DE2060</color>

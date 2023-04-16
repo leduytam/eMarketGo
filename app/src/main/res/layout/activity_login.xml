@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="Forget Password?"
-            android:textColor="@color/PRIMARY" />
+            android:textColor="@color/primary" />
 
         <Button
             android:id="@+id/login_button"
