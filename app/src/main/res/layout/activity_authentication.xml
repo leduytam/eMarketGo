@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/PRIMARY"
+    android:orientation="vertical">
+
+    <!-- App Logo -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="650px"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/banner_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/view_pager"
+            android:layout_centerHorizontal="true"
+            app:ci_drawable="@color/WARNING"
+            android:layout_marginTop="15dp"
+            app:ci_height="8dp"
+            app:ci_width="25dp"
+            app:ci_margin="8dp"
+            app:ci_gravity="center"
+            app:ci_drawable_unselected="@drawable/ic_indicator_carousel_unselected"
+            app:ci_orientation="horizontal" />
+    </LinearLayout>
+
+    <!-- Sign Up Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@color/WHITE"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="20dp"
+            android:textSize="16dp"
+            android:text="Sign Up" />
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="350px"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/WHITE"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="20dp"
+            android:textSize="16dp"
+            android:text="Log In"
+            android:textColor="@color/BLACK" />
+
+    </LinearLayout>
+
+</LinearLayout>
