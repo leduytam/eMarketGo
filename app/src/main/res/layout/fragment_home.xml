@@ -103,6 +103,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/tv_my_balance"
                     android:text="@string/fragment_home_money"
                     android:layout_marginTop="10dp"
                     android:textColor="@color/black"
@@ -356,194 +357,200 @@
             android:text="@string/fragment_home_service_and_product"/>
 
         <LinearLayout
+            android:id="@+id/ll_orders_container"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/order_detail"
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_orders"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_feature_background_border"
-                >
+                android:layout_height="wrap_content" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_order_tracking" />
+<!--            <LinearLayout-->
+<!--                android:id="@+id/order_detail"-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/item_feature_background_border"-->
+<!--                >-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    >
+<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:src="@drawable/ic_order_tracking" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_id"/>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    >-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray_900"
-                        android:text="@string/fragment_home_order_status"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/order_id"/>-->
 
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:textAlignment="textEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_900"
-                    android:layout_gravity="center"
-                    android:text="@string/fragment_home_2_hrs"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_feature_background_border"
-                >
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_order_tracking" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_id"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray_900"
-                        android:text="@string/fragment_home_order_status"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/gray_900"-->
+<!--                        android:text="@string/fragment_home_order_status"/>-->
 
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:textAlignment="textEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_900"
-                    android:layout_gravity="center"
-                    android:text="@string/fragment_home_2_hrs"/>
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/gray_900"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/fragment_home_2_hrs"/>-->
+<!--            </LinearLayout>-->
 
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_feature_background_border"
-                >
+<!--            <LinearLayout-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/item_feature_background_border"-->
+<!--                >-->
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_order_tracking" />
+<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:src="@drawable/ic_order_tracking" />-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    >
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    >-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_id"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/order_id"/>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray_900"
-                        android:text="@string/fragment_home_order_status"/>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:textAlignment="textEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_900"
-                    android:layout_gravity="center"
-                    android:text="@string/fragment_home_2_hrs"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/item_feature_background_border"
-                >
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_order_tracking" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_id"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/gray_900"
-                        android:text="@string/fragment_home_order_status"/>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/gray_900"-->
+<!--                        android:text="@string/fragment_home_order_status"/>-->
 
 
-                </LinearLayout>
+<!--                </LinearLayout>-->
 
-                <TextView
-                    android:layout_marginEnd="10dp"
-                    android:textAlignment="textEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_900"
-                    android:layout_gravity="center"
-                    android:text="@string/fragment_home_2_hrs"/>
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/gray_900"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/fragment_home_2_hrs"/>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/item_feature_background_border"-->
+<!--                >-->
+
+<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:src="@drawable/ic_order_tracking" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    >-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/order_id"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/gray_900"-->
+<!--                        android:text="@string/fragment_home_order_status"/>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--                <TextView-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/gray_900"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/fragment_home_2_hrs"/>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/item_feature_background_border"-->
+<!--                >-->
+
+<!--                <com.google.android.material.imageview.ShapeableImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:src="@drawable/ic_order_tracking" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    >-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/order_id"/>-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="@color/gray_900"-->
+<!--                        android:text="@string/fragment_home_order_status"/>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--                <TextView-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/gray_900"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/fragment_home_2_hrs"/>-->
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
