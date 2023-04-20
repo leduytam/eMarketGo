@@ -54,6 +54,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/black"
                     android:layout_weight="0.9"
+                    android:id="@+id/textView"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -68,103 +69,116 @@
             </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp"
-            >
+            android:id="@+id/ll_products_container"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
 
-                            <EditText
-                                android:layout_width="260dp"
-                                android:layout_height="50dp"
-                                android:textColor="@color/black"
-                                android:textSize="14sp"
-                                android:hint="Crab"
-                                android:drawableLeft="@drawable/ic_order_track_no_border"
-                                android:padding="15dp"
-                                android:layout_marginEnd="10dp"
-                                android:drawablePadding="10dp"
-                                android:background="@drawable/item_feature_background_border"
-                                />
-
-
-            <EditText
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:textColor="@color/black"
-                android:hint="4"
-                android:textSize="14sp"
-                android:padding="15dp"
-                android:background="@drawable/item_feature_background_border"
-                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            >-->
 
-                <EditText
-                    android:layout_width="260dp"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:hint="Phone"
-                    android:drawableLeft="@drawable/ic_order_track_no_border"
-                    android:padding="15dp"
-                    android:layout_marginEnd="10dp"
-                    android:drawablePadding="10dp"
-                    android:background="@drawable/item_feature_background_border"
-                    />
-
-
-                <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:hint="4"
-                    android:textSize="14sp"
-                    android:padding="15dp"
-                    android:background="@drawable/item_feature_background_border"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
-
-                <EditText
-                    android:layout_width="260dp"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:hint="Laptop"
-                    android:drawableLeft="@drawable/ic_order_track_no_border"
-                    android:padding="15dp"
-                    android:layout_marginEnd="10dp"
-                    android:drawablePadding="10dp"
-                    android:background="@drawable/item_feature_background_border"
-                    />
+<!--                            <EditText-->
+<!--                                android:layout_width="260dp"-->
+<!--                                android:layout_height="50dp"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="14sp"-->
+<!--                                android:hint="Crab"-->
+<!--                                android:drawableLeft="@drawable/ic_order_track_no_border"-->
+<!--                                android:padding="15dp"-->
+<!--                                android:layout_marginEnd="10dp"-->
+<!--                                android:drawablePadding="10dp"-->
+<!--                                android:background="@drawable/item_feature_background_border"-->
+<!--                                />-->
 
 
-                <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:hint="4"
-                    android:textSize="14sp"
-                    android:padding="15dp"
-                    android:background="@drawable/item_feature_background_border"
-                    />
+<!--            <EditText-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="4"-->
+<!--                android:textSize="14sp"-->
+<!--                android:padding="15dp"-->
+<!--                android:background="@drawable/item_feature_background_border"-->
+<!--                />-->
 
-            </LinearLayout>
+<!--        </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                >-->
+
+<!--                <EditText-->
+<!--                    android:layout_width="260dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:hint="Phone"-->
+<!--                    android:drawableLeft="@drawable/ic_order_track_no_border"-->
+<!--                    android:padding="15dp"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:drawablePadding="10dp"-->
+<!--                    android:background="@drawable/item_feature_background_border"-->
+<!--                    />-->
+
+
+<!--                <EditText-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:hint="4"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:padding="15dp"-->
+<!--                    android:background="@drawable/item_feature_background_border"-->
+<!--                    />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                >-->
+
+<!--                <EditText-->
+<!--                    android:layout_width="260dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:hint="Laptop"-->
+<!--                    android:drawableLeft="@drawable/ic_order_track_no_border"-->
+<!--                    android:padding="15dp"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:drawablePadding="10dp"-->
+<!--                    android:background="@drawable/item_feature_background_border"-->
+<!--                    />-->
+
+
+<!--                <EditText-->
+<!--                    android:layout_width="100dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:hint="4"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:padding="15dp"-->
+<!--                    android:background="@drawable/item_feature_background_border"-->
+<!--                    />-->
+
+<!--            </LinearLayout>-->
 
 
 
@@ -175,20 +189,19 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/status_pending"
+                    android:id="@+id/rb_pending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:text="@string/order_status_pending" />
 
                 <RadioButton
-                    android:id="@+id/status_processing"
+                    android:id="@+id/rb_on_process"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/order_status_on_process" />
 
                 <RadioButton
-                    android:id="@+id/status_delivered"
+                    android:id="@+id/rb_delivered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/order_status_delivered" />

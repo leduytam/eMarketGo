@@ -82,14 +82,14 @@
                     android:layout_marginEnd="20dp"
                     />
                 <LinearLayout
-                    android:layout_width="150dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fragment_home_my_balance"
+                        android:text="@string/fragment_profile_full_name"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         />
@@ -102,6 +102,7 @@
                         android:textSize="14sp"/>
                 </LinearLayout>
                 <Button
+                    android:backgroundTint="#434C52"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_profile"
