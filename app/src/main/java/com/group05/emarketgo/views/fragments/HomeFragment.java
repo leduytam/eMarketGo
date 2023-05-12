@@ -10,16 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.group05.emarketgo.MockData;
 import com.group05.emarketgo.R;
+import com.group05.emarketgo.databinding.FragmentHomeBinding;
 import com.group05.emarketgo.models.Order;
+import com.group05.emarketgo.viewmodels.OrderViewModel;
 import com.group05.emarketgo.views.adapters.OrderItemAdapter;
-
-import java.util.List;
 
 public class HomeFragment extends Fragment implements OrderItemAdapter.OnItemClickListener {
 
@@ -29,6 +29,10 @@ public class HomeFragment extends Fragment implements OrderItemAdapter.OnItemCli
     private LinearLayout orderDetailLayout;
 
     private TextView _tvMyBalance;
+
+    private OrderViewModel orderViewModel;
+
+    private FragmentHomeBinding binding;
 
 
 
@@ -45,27 +49,16 @@ public class HomeFragment extends Fragment implements OrderItemAdapter.OnItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        context = getContext();
-
-        List<Order> pendingOrders;
-        pendingOrders = MockData.getOrders(Order.OrderStatus.PENDING);
-        RecyclerView recyclerOrdersView = view.findViewById(R.id.ll_orders_container).findViewById(R.id.rv_orders);
-        recyclerOrdersView.setAdapter(new OrderItemAdapter(getContext(), pendingOrders, this));
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        orderViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) new OrderViewModel.Factory(Order.OrderStatus.PENDING)).get(OrderViewModel.class);
+        orderViewModel.fetch();
+        RecyclerView recyclerOrdersView = binding.llOrdersContainer.findViewById(R.id.ll_orders_container).findViewById(R.id.rv_orders);
         recyclerOrdersView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        List<Order> deliveredOrders;
-        deliveredOrders = MockData.getOrders(Order.OrderStatus.DELIVERED);
-
-        float shipCost = 0;
-        for (Order order : deliveredOrders) {
-            shipCost += order.getShipCost();
-        }
-
-        _tvMyBalance = view.findViewById(R.id.tv_my_balance);
-        _tvMyBalance.setText(String.valueOf(shipCost));
-
-        return view;
+        orderViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
+            recyclerOrdersView.setAdapter(new OrderItemAdapter(getContext(), orders, this));
+            binding.llOrdersContainer.setVisibility(orders.isEmpty() ? View.GONE : View.VISIBLE );
+        });
+        return binding.getRoot();
     }
 
     @Override

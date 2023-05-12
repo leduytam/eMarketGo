@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.group05.emarketgo.R;
-import com.group05.emarketgo.models.Product;
+import com.group05.emarketgo.models.OrderProduct;
 
 import java.util.List;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ViewHolder> {
     private final Context context;
-    private final List<Product> products;
+    private final List<OrderProduct> products;
 
-    public ProductItemAdapter(Context context, List<Product> products) {
+    public ProductItemAdapter(Context context, List<OrderProduct> products) {
         this.context = context;
         this.products = products;
     }
@@ -33,9 +33,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Product product = products.get(position);
-        var productName = product.getName();
-        var productQuantity = 2;
+        OrderProduct product = products.get(position);
+        var productName = product.getProduct().getName();
+        var productQuantity = product.getQuantity();
 
         holder._etName.setText(productName);
         holder._etQuantity.setText(String.valueOf(productQuantity));

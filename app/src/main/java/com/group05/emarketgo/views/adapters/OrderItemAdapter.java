@@ -56,7 +56,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
 
 
             holder._tvOrderId.setText(orderId);
-            holder._tvOrderDate.setText(orderDate);
+            holder._tvOrderDate.setText(orderDate.toString());
             holder._tvOrderStatus.setText(orderStatus.toString());
     }
 
