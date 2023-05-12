@@ -1,6 +1,6 @@
 package com.group05.emarketgo.firestore;
 
-import static com.group05.emarketgo.schemas.UsersFirestoreSchema.COLLECTION_NAME;
+import static com.group05.emarketgo.schemas.DeliverymenSchema.COLLECTION_NAME;
 
 import android.util.Log;
 

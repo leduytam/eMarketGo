@@ -10,14 +10,17 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.group05.emarketgo.R;
+import com.group05.emarketgo.databinding.FragmentOrderDetailBinding;
 import com.group05.emarketgo.models.Order;
-import com.group05.emarketgo.models.Product;
+import com.group05.emarketgo.models.OrderProduct;
+import com.group05.emarketgo.viewmodels.OrderViewModel;
 import com.group05.emarketgo.views.adapters.ProductItemAdapter;
 
 import java.util.List;
@@ -32,6 +35,10 @@ public class OrderDetailFragment extends Fragment {
     private RadioButton rbDelivered;
 
     private Order order;
+
+    private OrderViewModel orderViewModel;
+
+    private FragmentOrderDetailBinding binding;
 
     private TextView textView;
 
@@ -64,23 +71,36 @@ public class OrderDetailFragment extends Fragment {
             fragmentManager.popBackStack();
         });
 
+        orderViewModel = new OrderViewModel();
+
+
         rbPending = view.findViewById(R.id.rb_pending);
         rbOnProcess = view.findViewById(R.id.rb_on_process);
         rbDelivered = view.findViewById(R.id.rb_delivered);
 
         rbPending.setOnClickListener(v -> {
+            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.PENDING);
+
             order.setStatus(Order.OrderStatus.PENDING);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
         });
 
         rbOnProcess.setOnClickListener(v -> {
+            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.DELIVERING);
             order.setStatus(Order.OrderStatus.DELIVERING);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
         });
 
         rbDelivered.setOnClickListener(v -> {
+            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.DELIVERED);
             order.setStatus(Order.OrderStatus.DELIVERED);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
         });
 
-        List<Product> products = order.getProducts();
+        List<OrderProduct> products = order.getProducts();
 
         var orderStatus = order.getStatus();
 

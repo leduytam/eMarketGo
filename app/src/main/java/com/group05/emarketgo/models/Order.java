@@ -12,24 +12,35 @@ public class Order {
         DELIVERED,
         CANCELLED
     }
-    private int id;
-    private float totalPrice;
+    private String id;
+    private double totalPrice;
     private String name;
     private String address;
     private String phone;
     private String email;
     private String note;
     private OrderStatus orderStatus;
-    private String created_at;
-    private String updated_at;
+    private Date created_at;
+    private Date updated_at;
 
-    private float shipCost;
-
-    private List<Product> orderProducts;
+    private List<OrderProduct> orderProducts;
 
     private DeliveryMan deliveryMan;
 
-    public Order(int id, String name, String address, String phone, String email, String note, OrderStatus orderStatus, String created_at, String updated_at, float totalPrice, List<Product> products, DeliveryMan deliveryMan, float shipCost) {
+    public Order(String id, String name, String address, String phone, String email, OrderStatus orderStatus, Date created_at, Date updated_at, double totalPrice) {
+        orderProducts = new ArrayList<>();
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.orderStatus = orderStatus;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.totalPrice = totalPrice;
+    }
+
+    public Order(String id, String name, String address, String phone, String email, String note, OrderStatus orderStatus, Date created_at, Date updated_at, double totalPrice, List<OrderProduct> products, DeliveryMan deliveryMan, float shipCost) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -42,18 +53,22 @@ public class Order {
         this.totalPrice = totalPrice;
         this.orderProducts = products;
         this.deliveryMan = deliveryMan;
-        this.shipCost = shipCost;
     }
 
-    public int getId() {
+    public Order(String id, OrderStatus currentStatus, Date updatedAt, Date createdAt, double totalPrice) {
+        orderProducts = new ArrayList<>();
+        this.id = id;
+        this.orderStatus = currentStatus;
+        this.updated_at = updatedAt;
+        this.created_at = createdAt;
+        this.totalPrice = totalPrice;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public float getShipCost() {
-        return shipCost;
-    }
-
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,32 +84,12 @@ public class Order {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public OrderStatus getStatus() {
@@ -105,40 +100,40 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public String getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
-
-    public float getTotalPrice() {
+    public void addOrderProduct(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+    }
+    public List<OrderProduct> getOrderProducts() {
+        return this.orderProducts;
+    }
+    public double getTotalPrice() {
         return totalPrice;
     }
-
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
+    public List<OrderProduct> getProducts() {
         return orderProducts;
     }
 
-    public void setShipCost(float shipCost) {
-        this.shipCost = shipCost;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.orderProducts = products;
+    public void setProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     public DeliveryMan getDeliveryMan() {
@@ -147,102 +142,5 @@ public class Order {
 
     public void setDeliveryMan(DeliveryMan deliveryMan) {
         this.deliveryMan = deliveryMan;
-    }
-
-    public static class Builder {
-        private int id;
-        private String name;
-        private String address;
-        private String phone;
-        private String email;
-        private String note;
-        private OrderStatus orderStatus;
-        private String created_at;
-        private String updated_at;
-        private float totalPrice;
-
-        private float shipCost;
-        private List<Product> products;
-        private DeliveryMan deliveryMan;
-
-        public Builder() {
-        }
-
-        public Builder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setShipCost(float shipCost) {
-            this.shipCost = shipCost;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder setAddress(String address) {
-            this.address = address;
-            return this;
-        }
-
-        public Builder setPhone(String phone) {
-            this.phone = phone;
-            return this;
-        }
-
-        public Builder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder setNote(String note) {
-            this.note = note;
-            return this;
-        }
-
-        public Builder setStatus(OrderStatus orderStatus) {
-            this.orderStatus = orderStatus;
-            return this;
-        }
-
-        public Builder setCreatedAt(String created_at) {
-            this.created_at = created_at;
-            return this;
-        }
-
-        public Builder setUpdatedAt(String updated_at) {
-            this.updated_at = updated_at;
-            return this;
-        }
-
-        public Builder setUpdatedAt(Date updated_at) {
-            this.updated_at = updated_at.toString();
-            return this;
-        }
-
-        public Builder setTotalPrice(float totalPrice) {
-            this.totalPrice = totalPrice;
-            return this;
-        }
-
-        public Builder setProducts(List<Product> products) {
-            var list = new ArrayList<Product>();
-            list.addAll(products);
-            this.products = list;
-            return this;
-        }
-
-        public Builder setDeliveryMan(DeliveryMan deliveryMan) {
-            this.deliveryMan = deliveryMan;
-            return this;
-        }
-
-        public Order build() {
-            var order = new Order(id, name, address, phone, email, note, orderStatus, created_at, updated_at, totalPrice, products, deliveryMan, shipCost);
-            return order;
-        }
     }
 }

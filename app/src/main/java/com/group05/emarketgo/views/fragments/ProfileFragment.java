@@ -51,17 +51,6 @@ public class ProfileFragment extends Fragment {
         btnLogout = view.findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> onLogout());
 
-//        editProfileLayout = view.findViewById(R.id.editProfile_button);
-//        editProfileLayout.setOnClickListener(v -> onClickEditProfile());
-//
-//        allHistoryLayout = view.findViewById(R.id.allHistory_button);
-//        allHistoryLayout.setOnClickListener(v -> onClickAllHistory());
-//
-//        helpLayout = view.findViewById(R.id.help_button);
-//        helpLayout.setOnClickListener(v -> onClickHelp());
-//
-//        aboutLayout = view.findViewById(R.id.about_button);
-//        aboutLayout.setOnClickListener(v -> onClickAbout());
 
 
         return view;
@@ -77,44 +66,6 @@ public class ProfileFragment extends Fragment {
         }).show();
     }
 
-//    private void onClickEditProfile() {
-//        int fragmentId = this.getId();
-//        EditProfileFragment editProfileFragment = new EditProfileFragment();
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(fragmentId, editProfileFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
-//
-//    private void onClickAllHistory() {
-//        int fragmentId = this.getId();
-//        AllHistoryFragment allHistoryFragment = new AllHistoryFragment();
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(fragmentId, allHistoryFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
-//
-//    private void onClickHelp() {
-//        int fragmentId = this.getId();
-//        HelpFragment helpFragment = new HelpFragment();
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(fragmentId, helpFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
-//
-//    private void onClickAbout() {
-//        int fragmentId = this.getId();
-//        AboutFragment aboutFragment = new AboutFragment();
-//        requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(fragmentId, aboutFragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
+
 
 }

@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.group05.emarketgo.R;
 import com.group05.emarketgo.firestore.UsersFirestoreManager;
 import com.group05.emarketgo.models.User;
+import com.group05.emarketgo.repositories.DeliverymenRepository;
 
 import java.util.ArrayList;
 
@@ -222,6 +223,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 taskSendingEmail -> {
                                     if (taskSendingEmail.isSuccessful()) {
                                         alertDialogBuilder.setTitle("Sign up successfully").setBackground(getResources().getDrawable(R.drawable.background_dialog_alert)).setMessage("Verification email sent! Please check your inbox (and spam folder) and follow the instructions to complete the process. Contact support if needed. Thanks!").setPositiveButton("OK", (dialog, which) -> {
+                                            String userUid = firebaseUser.getUid();
+                                            DeliverymenRepository.createUser(user, userUid);
                                             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                         }).show();
