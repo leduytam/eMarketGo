@@ -3,6 +3,7 @@ package com.group05.emarketgo.repositories;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.group05.emarketgo.models.CartItem;
@@ -258,11 +259,33 @@ public class OrderRepository {
         CompletableFuture<Void> future = new CompletableFuture<>();
         db.collection("orders").document(orderId).update("status", status).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                future.complete(null);
+                if (status == Order.OrderStatus.DELIVERED) {
+                    Query query = db.collection("orders").document(orderId).collection("products");
+                    query.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            var orderItemDocs = task1.getResult().getDocuments();
+
+                            if (orderItemDocs.size() == 0) {
+                                future.complete(null);
+                                return;
+                            }
+
+                            for (var doc1 : orderItemDocs) {
+                                DocumentReference productRef = doc1.getDocumentReference("productRef");
+                                Integer quantity = doc1.getLong("quantity").intValue();
+                                db.collection("products").document(productRef.getId()).update("sold", FieldValue.increment(quantity));
+                            }
+                        }
+                    });
+                    future.complete(null);
+                }
+
             } else {
                 future.completeExceptionally(task.getException());
             }
         });
         return future;
     }
+
+
 }
