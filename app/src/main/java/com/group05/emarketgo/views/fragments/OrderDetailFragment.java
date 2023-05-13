@@ -1,7 +1,9 @@
 package com.group05.emarketgo.views.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +12,18 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.group05.emarketgo.R;
 import com.group05.emarketgo.databinding.FragmentOrderDetailBinding;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.models.OrderProduct;
+import com.group05.emarketgo.viewmodels.AddressViewModel;
 import com.group05.emarketgo.viewmodels.OrderViewModel;
+import com.group05.emarketgo.views.activities.MapActivity;
 import com.group05.emarketgo.views.adapters.ProductItemAdapter;
 
 import java.util.List;
@@ -37,6 +40,8 @@ public class OrderDetailFragment extends Fragment {
     private Order order;
 
     private OrderViewModel orderViewModel;
+
+    private AddressViewModel addressViewModel;
 
     private FragmentOrderDetailBinding binding;
 
@@ -62,10 +67,10 @@ public class OrderDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_order_detail, container, false);
-        context = getContext();
+        binding = FragmentOrderDetailBinding.inflate(inflater, container, false);
+        Context context = binding.getRoot().getContext();
 
-        MaterialToolbar topBar = view.findViewById(R.id.top_bar);
+        MaterialToolbar topBar = binding.topBar;
         topBar.setNavigationOnClickListener(v -> {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.popBackStack();
@@ -73,49 +78,24 @@ public class OrderDetailFragment extends Fragment {
 
         orderViewModel = new OrderViewModel();
 
-
-        rbPending = view.findViewById(R.id.rb_pending);
-        rbOnProcess = view.findViewById(R.id.rb_on_process);
-        rbDelivered = view.findViewById(R.id.rb_delivered);
-
-        rbPending.setOnClickListener(v -> {
-            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.PENDING);
-
-            order.setStatus(Order.OrderStatus.PENDING);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(this).attach(this).commit();
-        });
-
-        rbOnProcess.setOnClickListener(v -> {
-            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.DELIVERING);
-            order.setStatus(Order.OrderStatus.DELIVERING);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(this).attach(this).commit();
-        });
-
-        rbDelivered.setOnClickListener(v -> {
-            orderViewModel.updateStatus(order.getId(), Order.OrderStatus.DELIVERED);
-            order.setStatus(Order.OrderStatus.DELIVERED);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(this).attach(this).commit();
-        });
-
         List<OrderProduct> products = order.getProducts();
 
-        var orderStatus = order.getStatus();
+        addressViewModel = new ViewModelProvider(requireActivity()).get(AddressViewModel.class);
+        addressViewModel.getUserAddress().observe(getViewLifecycleOwner(), userAddress -> {
+        });
 
-        if (orderStatus == Order.OrderStatus.PENDING) {
-            rbPending.setChecked(true);
-        } else if (orderStatus == Order.OrderStatus.DELIVERING) {
-            rbOnProcess.setChecked(true);
-        } else if (orderStatus == Order.OrderStatus.DELIVERED) {
-            rbDelivered.setChecked(true);
-        }
+        binding.btnTakeItem.setOnClickListener(v -> {
+            Intent intent = new Intent(context, MapActivity.class);
+            intent.putExtra("isHavingDefaultAddress", addressViewModel.getUserAddress().getValue() != null);
+            intent.putExtra("orderId", order.getId());
+            startActivity(intent);
+        });
 
-        RecyclerView recyclerOrdersView = view.findViewById(R.id.ll_products_container).findViewById(R.id.rv_products);
+
+        RecyclerView recyclerOrdersView = binding.rvProducts;
         recyclerOrdersView.setAdapter(new ProductItemAdapter(getContext(), products));
         recyclerOrdersView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        return view;
+        return binding.getRoot();
     }
 }

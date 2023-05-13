@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:background="@drawable/background_bottom_sheet"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/bottom_sheet_location_title"
+            android:textFontWeight="700"
+            android:textSize="@dimen/text_size_md" />
+
+        <Button
+            android:id="@+id/btn_close_bottom_sheet"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawablePadding="@dimen/padding_sm"
+            app:icon="@drawable/ic_close"
+            app:iconSize="30dp" />
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:paddingStart="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_gravity="center_vertical"
+        >
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:shapeAppearanceOverlay="@style/ImageViewCircular"
+            app:srcCompat="@drawable/sang_avatar"
+            android:layout_marginEnd="20dp"
+            />
+        <LinearLayout
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fragment_profile_full_name"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:id="@+id/tv_customerName"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+84 383937992"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:id="@+id/tv_customerPhone"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/iconButtonCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_call"
+            app:iconTint="@color/black"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/iconButtonMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_message_notif"
+            app:iconTint="@color/black"
+            app:iconSize="24dp"
+            app:backgroundTint="@color/white" />
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="12dp" />
+
+    <TextView
+        android:id="@+id/tv_deliverymanLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_lg"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_truck_shipping"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_2sm"
+        android:textStyle="bold"
+        android:minHeight="60dp"
+        android:drawablePadding="@dimen/padding_md"
+        app:layout_constraintBottom_toTopOf="@+id/btn_mapConfirm" />
+
+    <TextView
+        android:id="@+id/tv_orderLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_lg"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/ic_location"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_2sm"
+        android:textStyle="bold"
+        android:minHeight="60dp"
+        android:drawablePadding="@dimen/padding_md"
+        app:layout_constraintBottom_toTopOf="@+id/tv_deliverymanLocation" />
+
+
+    <Button
+        android:id="@+id/btn_confirm_location"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginVertical="@dimen/margin_lg"
+        android:layout_marginStart="@dimen/margin_lg"
+        android:layout_marginEnd="@dimen/margin_lg"
+        android:text="@string/location_confirm_button"
+        android:textSize="@dimen/text_size_md"
+        app:cornerRadius="15dp" />
+
+</LinearLayout>

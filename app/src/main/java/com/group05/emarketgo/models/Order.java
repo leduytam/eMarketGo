@@ -40,6 +40,10 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public Order() {
+        orderProducts = new ArrayList<>();
+    }
+
     public Order(String id, String name, String address, String phone, String email, String note, OrderStatus orderStatus, Date created_at, Date updated_at, double totalPrice, List<OrderProduct> products, DeliveryMan deliveryMan, float shipCost) {
         this.id = id;
         this.name = name;

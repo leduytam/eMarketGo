@@ -64,6 +64,11 @@ public class OrderViewModel extends ViewModel {
         });
     }
 
+
+    public void updateOrderDeliverymanByOrderId(String orderId, String deliverymanId) {
+        orderRepo.updateDeliverymanRef(orderId, deliverymanId);
+    }
+
     public MutableLiveData<List<Order>> getOrders() {
         return orders;
     }

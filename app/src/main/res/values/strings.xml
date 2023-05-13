@@ -47,4 +47,11 @@
     <string name="faq">FAQ</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="contact_us">Contact Us</string>
+    <string name="activity_location_locate_button">Go Shipping</string>
+    <string name="activity_location_done_order">Done this order</string>
+    <string name="activity_map_top_bar_title">Your location</string>
+    <string name="bottom_sheet_location_title">Order Detail</string>
+    <string name="location_confirm_button">Confirm</string>
+    <string name="menu_map_refresh">Refresh</string>
+    <string name="fragment_order_details_button_take_item">Take this order now!</string>
 </resources>

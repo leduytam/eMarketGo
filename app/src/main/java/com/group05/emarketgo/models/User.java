@@ -26,6 +26,8 @@ public class User {
     private Gender gender;
     private Date birthday;
 
+    private String fullName;
+
 
     public User() {
         this.email = "";
@@ -35,6 +37,7 @@ public class User {
         this.phoneNumber = "";
         this.address = "";
         this.city = "";
+        this.fullName = "";
         this.gender = Gender.NONE;
         this.birthday = new Date();
     }
@@ -88,6 +91,16 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;

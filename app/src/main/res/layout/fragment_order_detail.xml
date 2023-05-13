@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".views.fragments.OrderDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,196 +24,70 @@
             app:titleTextAppearance="@style/Toolbar.SmallTitleText" />
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-
-<!--    </androidx.core.widget.NestedScrollView>-->
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="270dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fragment_order_detail_name"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:layout_weight="0.9"
-                    android:id="@+id/textView"
-                    android:textSize="16sp"/>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fragment_order_detail_quantity"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="270dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="0.9"
+                        android:text="@string/fragment_order_detail_name"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/fragment_order_detail_quantity"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_products_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_products_container"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_products"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            >-->
-
-<!--                            <EditText-->
-<!--                                android:layout_width="260dp"-->
-<!--                                android:layout_height="50dp"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="14sp"-->
-<!--                                android:hint="Crab"-->
-<!--                                android:drawableLeft="@drawable/ic_order_track_no_border"-->
-<!--                                android:padding="15dp"-->
-<!--                                android:layout_marginEnd="10dp"-->
-<!--                                android:drawablePadding="10dp"-->
-<!--                                android:background="@drawable/item_feature_background_border"-->
-<!--                                />-->
-
-
-<!--            <EditText-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:hint="4"-->
-<!--                android:textSize="14sp"-->
-<!--                android:padding="15dp"-->
-<!--                android:background="@drawable/item_feature_background_border"-->
-<!--                />-->
-
-<!--        </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                >-->
-
-<!--                <EditText-->
-<!--                    android:layout_width="260dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:hint="Phone"-->
-<!--                    android:drawableLeft="@drawable/ic_order_track_no_border"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:drawablePadding="10dp"-->
-<!--                    android:background="@drawable/item_feature_background_border"-->
-<!--                    />-->
-
-
-<!--                <EditText-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:hint="4"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:background="@drawable/item_feature_background_border"-->
-<!--                    />-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:layout_marginBottom="10dp"-->
-<!--                >-->
-
-<!--                <EditText-->
-<!--                    android:layout_width="260dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:hint="Laptop"-->
-<!--                    android:drawableLeft="@drawable/ic_order_track_no_border"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:layout_marginEnd="10dp"-->
-<!--                    android:drawablePadding="10dp"-->
-<!--                    android:background="@drawable/item_feature_background_border"-->
-<!--                    />-->
-
-
-<!--                <EditText-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:hint="4"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:background="@drawable/item_feature_background_border"-->
-<!--                    />-->
-
-<!--            </LinearLayout>-->
-
-
-
-            <RadioGroup
-                android:id="@+id/status_radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rb_pending"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_status_pending" />
-
-                <RadioButton
-                    android:id="@+id/rb_on_process"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_status_on_process" />
-
-                <RadioButton
-                    android:id="@+id/rb_delivered"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/order_status_delivered" />
-
-            </RadioGroup>
-
-
-
-
-        </LinearLayout>
 
     </ScrollView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:id="@+id/btn_take_item"
+        android:text="@string/fragment_order_details_button_take_item" />
+
+</LinearLayout>
