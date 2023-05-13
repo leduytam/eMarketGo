@@ -35,6 +35,7 @@ import com.group05.emarketgo.databinding.ActivityMapBinding;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.repositories.AddressRepository;
 import com.group05.emarketgo.viewmodels.OrderDetailViewModel;
+import com.group05.emarketgo.viewmodels.OrderViewModel;
 import com.group05.emarketgo.views.dialogs.LocationBottomSheetDialog;
 
 import java.io.IOException;
@@ -51,6 +52,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int MAP_ZOOM = 1000;
 
     private OrderDetailViewModel orderDetailViewModel;
+
+    private OrderViewModel orderViewModel;
     private static FirebaseAuth mAuth;
 
     private Geocoder geocoder;
@@ -71,6 +74,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         binding = ActivityMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         orderDetailViewModel = new OrderDetailViewModel(orderId);
+        orderViewModel = new OrderViewModel();
         locationBottomSheetDialog = new LocationBottomSheetDialog(this, orderDetailViewModel);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_app);
         geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
@@ -87,8 +91,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if (status == Order.OrderStatus.PENDING) {
                 binding.btnDeliveringOrder.setVisibility(View.VISIBLE);
                 binding.btnDeliveredOrder.setVisibility(View.GONE);
-            } else {
+            } else if (status == Order.OrderStatus.DELIVERING) {
                 binding.btnDeliveredOrder.setVisibility(View.VISIBLE);
+                binding.btnDeliveringOrder.setVisibility(View.GONE);
+            } else {
+                binding.btnDeliveredOrder.setVisibility(View.GONE);
                 binding.btnDeliveringOrder.setVisibility(View.GONE);
             }
         });
@@ -102,6 +109,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 binding.btnDeliveringOrder.setVisibility(View.VISIBLE);
                 binding.btnDeliveredOrder.setVisibility(View.GONE);
             }
+        });
+
+        binding.btnDeliveredOrder.setOnClickListener(v -> {
+            orderViewModel.updateStatus(orderId, Order.OrderStatus.DELIVERED);
+            finish();
         });
 
     }
