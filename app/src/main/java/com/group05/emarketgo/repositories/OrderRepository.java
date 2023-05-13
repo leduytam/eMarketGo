@@ -8,11 +8,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.group05.emarketgo.models.Address;
 import com.group05.emarketgo.models.CartItem;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.models.OrderProduct;
 import com.group05.emarketgo.models.Product;
+import com.group05.emarketgo.models.Address;
 import com.group05.emarketgo.models.User;
 
 import java.util.ArrayList;
@@ -38,7 +38,6 @@ public class OrderRepository {
     private OrderRepository() {
     }
 
-    // get all orders of current user without status
     public CompletableFuture<List<Order>> getAll() {
         CompletableFuture<List<Order>> future = new CompletableFuture<>();
 
@@ -256,6 +255,51 @@ public class OrderRepository {
         });
         return future;
     }
+//    public CompletableFuture<Void> addDeliverymanAddress(String orderId, Address deliverymanAddress) {
+//        CompletableFuture<Void> future = new CompletableFuture<>();
+//
+//        Map<String, Object> addressMap = new HashMap<>();
+//        deliverymanAddress.toMap().forEach(addressMap::put);
+//
+//
+//        db.collection("orders")
+//                .document(orderId)
+//                .collection("deliverymanAddress")
+//                .document("address")
+//                .set(addressMap)
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        future.complete(null);
+//                    } else {
+//                        future.completeExceptionally(task.getException());
+//                    }
+//                });
+//
+//        return future;
+//    }
+
+    public CompletableFuture<Void> addDeliverymanAddress(String orderId, Address deliverymanAddress) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        Map<String, Object> addressMap = new HashMap<>();
+        deliverymanAddress.toMap().forEach(addressMap::put);
+
+        db.collection("orders")
+                .document(orderId)
+                .collection("deliverymanAddress")
+                .add(addressMap)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+
+        return future;
+    }
+
+
 
 
     public CompletableFuture<User> getUserByOrderId(String orderId) {
@@ -352,6 +396,20 @@ public class OrderRepository {
                         }
                     }
                 });
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Order.OrderStatus> getOrderStatus(String orderId) {
+        CompletableFuture<Order.OrderStatus> future = new CompletableFuture<>();
+        db.collection("orders").document(orderId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                var doc = task.getResult();
+                Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
+                future.complete(currentStatus);
+            } else {
+                future.completeExceptionally(task.getException());
             }
         });
         return future;

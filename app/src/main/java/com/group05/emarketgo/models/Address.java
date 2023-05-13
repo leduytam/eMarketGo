@@ -16,34 +16,43 @@ import java.util.Map;
 
 public class Address {
     private String address;
+
+    private String street;
     private String ward;
     private String district;
     private String city;
     private String province;
     private String country;
     private String postalCode;
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
     private boolean isDefault;
 
     public Address() {
         this.address = "";
+        this.street = "";
         this.ward = "";
         this.district = "";
         this.city = "";
         this.province = "";
         this.country = "";
         this.postalCode = "";
-        this.latitude = 0.0f;
-        this.longitude = 0.0f;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
         this.isDefault = false;
     }
 
-    public Address(String address, String ward, String district, String city, String province, String country, String postalCode) {
+    public Address(String address, String street, String ward, String district, String city, String province, String country, String postalCode) {
         if (address != null) {
             this.address = address;
         } else {
             this.address = "";
+        }
+
+        if (street != null) {
+            this.street = street;
+        } else {
+            this.street = "";
         }
 
         if (ward != null) {
@@ -82,16 +91,22 @@ public class Address {
             this.postalCode = "";
         }
 
-        this.latitude = 0.0f;
-        this.longitude = 0.0f;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
         this.isDefault = false;
     }
 
-    public Address(String address, String ward, String district, String city, String province, String country, String postalCode, float latitude, float longitude, boolean isDefault) {
+    public Address(String address, String street, String ward, String district, String city, String province, String country, String postalCode, double latitude, double longitude, boolean isDefault) {
         if (address != null) {
             this.address = address;
         } else {
             this.address = "";
+        }
+
+        if (street != null) {
+            this.street = street;
+        } else {
+            this.street = "";
         }
 
         if (ward != null) {
@@ -133,13 +148,13 @@ public class Address {
         if (latitude != 0.0) {
             this.latitude = latitude;
         } else {
-            this.latitude = 0.0f;
+            this.latitude = 0.0;
         }
 
         if (longitude != 0.0) {
             this.longitude = longitude;
         } else {
-            this.longitude = 0.0f;
+            this.longitude = 0.0;
         }
 
         this.isDefault = isDefault;
@@ -201,20 +216,20 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -285,16 +300,16 @@ public class Address {
             this.setPostalCode("");
         }
         if (address.getLatitude() != 0.0) {
-            this.setLatitude((float) address.getLatitude());
+            this.setLatitude((Double) address.getLatitude());
         }
         else {
-            this.setLatitude(0.0f);
+            this.setLatitude(0.0);
         }
         if (address.getLongitude() != 0.0) {
-            this.setLongitude((float) address.getLongitude());
+            this.setLongitude((Double) address.getLongitude());
         }
         else {
-            this.setLongitude(0.0f);
+            this.setLongitude(0.0);
         }
         this.setIsDefault(isDefault);
     }

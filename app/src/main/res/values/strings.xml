@@ -54,4 +54,5 @@
     <string name="location_confirm_button">Confirm</string>
     <string name="menu_map_refresh">Refresh</string>
     <string name="fragment_order_details_button_take_item">Take this order now!</string>
+    <string name="fragment_order_details_button_check_order">Check this order now!</string>
 </resources>

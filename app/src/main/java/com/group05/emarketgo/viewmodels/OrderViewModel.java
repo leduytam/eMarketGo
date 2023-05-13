@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.group05.emarketgo.models.Address;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.repositories.OrderRepository;
 
@@ -62,6 +63,10 @@ public class OrderViewModel extends ViewModel {
             e.printStackTrace();
             return null;
         });
+    }
+
+    public void addDeliverymanAddressByOrderId(String orderId, Address deliverymanAddress) {
+        orderRepo.addDeliverymanAddress(orderId, deliverymanAddress);
     }
 
 

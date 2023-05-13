@@ -3,6 +3,7 @@ package com.group05.emarketgo.views.dialogs;
 import android.content.Context;
 import android.location.Address;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,8 +13,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.group05.emarketgo.R;
 import com.group05.emarketgo.databinding.BottomSheetLocationBinding;
 import com.group05.emarketgo.models.Order;
+import com.group05.emarketgo.viewmodels.OrderDetailViewModel;
 import com.group05.emarketgo.viewmodels.OrderViewModel;
-import com.group05.emarketgo.views.activities.MapActivity;
 
 
 @ExperimentalBadgeUtils
@@ -28,17 +29,18 @@ public class LocationBottomSheetDialog extends BottomSheetDialog {
 
     private OrderViewModel orderViewModel;
 
+    private OrderDetailViewModel orderDetailViewModel;
+
     private String deliverymanRef;
 
     private String orderId;
 
     private BottomSheetLocationBinding binding;
 
-    private MapActivity mapActivity;
 
-
-    public LocationBottomSheetDialog(Context context) {
+    public LocationBottomSheetDialog(Context context, OrderDetailViewModel orderDetailViewModel) {
         super(context);
+        this.orderDetailViewModel = orderDetailViewModel;
     }
 
     public void setDeliverymanAddress(Address deliverymanAddress) {
@@ -120,7 +122,27 @@ public class LocationBottomSheetDialog extends BottomSheetDialog {
 
         binding.btnConfirmLocation.setOnClickListener(v -> {
             orderViewModel = new OrderViewModel();
+            orderDetailViewModel.setIsDeliveringOrder(true);
             orderViewModel.updateOrderDeliverymanByOrderId(orderId, deliverymanRef);
+
+            Log.d("LocationBottomSheet", "updateAddress: " + deliverymanAddress.getAddressLine(0));
+            String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
+            com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
+                    deliverymanAddress.getAddressLine(0),
+                    addressArray[0],
+                    addressArray[1],
+                    addressArray[2],
+                    addressArray[3],
+                    "",
+                    deliverymanAddress.getCountryName(),
+                    deliverymanAddress.getPostalCode(),
+                    deliverymanAddress.getLatitude(),
+                    deliverymanAddress.getLongitude(),
+                    false
+            );
+
+
+            orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
             orderViewModel.updateStatus(orderId, Order.OrderStatus.DELIVERING);
             dismiss();
         });

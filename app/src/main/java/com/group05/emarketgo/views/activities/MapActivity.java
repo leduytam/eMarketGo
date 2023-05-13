@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.group05.emarketgo.R;
 import com.group05.emarketgo.databinding.ActivityMapBinding;
+import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.repositories.AddressRepository;
 import com.group05.emarketgo.viewmodels.OrderDetailViewModel;
 import com.group05.emarketgo.views.dialogs.LocationBottomSheetDialog;
@@ -58,7 +59,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private String orderId;
 
-    private Boolean isDeliveredOrder = false;
+    private Boolean isDeliveringOrder = false;
 
 
     @Override
@@ -69,7 +70,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mAuth = FirebaseAuth.getInstance();
         binding = ActivityMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        locationBottomSheetDialog = new LocationBottomSheetDialog(this);
+        orderDetailViewModel = new OrderDetailViewModel(orderId);
+        locationBottomSheetDialog = new LocationBottomSheetDialog(this, orderDetailViewModel);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_app);
         geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
         binding.topBar.setNavigationOnClickListener(v -> finish());
@@ -79,20 +81,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             return true;
         });
-        Log.d("MapActivity", "onCreate: " + isDeliveredOrder);
         mapFragment.getMapAsync(this);
 
-        if (isDeliveredOrder) {
-            binding.btnDeliveringOrder.setVisibility(View.GONE);
-            binding.btnDeliveredOrder.setVisibility(View.VISIBLE);
-        } else {
-            binding.btnDeliveringOrder.setVisibility(View.VISIBLE);
-            binding.btnDeliveredOrder.setVisibility(View.GONE);
-        }
+        orderDetailViewModel.getStatus(orderId).thenAccept(status -> {
+            if (status == Order.OrderStatus.PENDING) {
+                binding.btnDeliveringOrder.setVisibility(View.VISIBLE);
+                binding.btnDeliveredOrder.setVisibility(View.GONE);
+            } else {
+                binding.btnDeliveredOrder.setVisibility(View.VISIBLE);
+                binding.btnDeliveringOrder.setVisibility(View.GONE);
+            }
+        });
+
+        orderDetailViewModel.isDeliveringOrder().observe(this, isDeliveringOrder -> {
+            setIsDeliveredOrder(isDeliveringOrder);
+            if (isDeliveringOrder) {
+                binding.btnDeliveringOrder.setVisibility(View.GONE);
+                binding.btnDeliveredOrder.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnDeliveringOrder.setVisibility(View.VISIBLE);
+                binding.btnDeliveredOrder.setVisibility(View.GONE);
+            }
+        });
+
     }
     @Override
     protected void onResume() {
-        Log.d("MapActivity", "onCreate: " + isDeliveredOrder);
         super.onResume();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
@@ -101,8 +115,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void setIsDeliveredOrder(Boolean isDeliveredOrder) {
-        this.isDeliveredOrder = isDeliveredOrder;
+    public void setIsDeliveredOrder(Boolean isDeliveringOrder) {
+        this.isDeliveringOrder = isDeliveringOrder;
     }
 
     private void getFromLocationLongLat(double latitude, double longitude) {

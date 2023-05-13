@@ -22,9 +22,12 @@ public class OrderDetailViewModel extends ViewModel {
 
     private final String orderId;
 
+    private final MutableLiveData<Boolean> isDeliveringOrder;
+
     public OrderDetailViewModel(String orderId) {
         products = new MutableLiveData<>(new ArrayList<>());
         isLoading = new MutableLiveData<>(false);
+        isDeliveringOrder = new MutableLiveData<>(false);
         this.orderId = orderId;
 
         fetchProducts();
@@ -33,7 +36,16 @@ public class OrderDetailViewModel extends ViewModel {
     public OrderDetailViewModel() {
         products = new MutableLiveData<>(new ArrayList<>());
         isLoading = new MutableLiveData<>(false);
+        isDeliveringOrder = new MutableLiveData<>(false);
         this.orderId = "";
+    }
+
+    public LiveData<Boolean> isDeliveringOrder() {
+        return isDeliveringOrder;
+    }
+
+    public void setIsDeliveringOrder(boolean isDeliveringOrder) {
+        this.isDeliveringOrder.setValue(isDeliveringOrder);
     }
 
     public LiveData<List<OrderProduct>> getProducts() {
@@ -61,6 +73,10 @@ public class OrderDetailViewModel extends ViewModel {
 
     public CompletableFuture<User> getUser(String orderId) {
         return orderRepository.getUserByOrderId(orderId);
+    }
+
+    public CompletableFuture<Order.OrderStatus> getStatus(String orderId) {
+        return orderRepository.getOrderStatus(orderId);
     }
 
 

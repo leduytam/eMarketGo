@@ -3,12 +3,9 @@ package com.group05.emarketgo.views.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.group05.emarketgo.R;
 import com.group05.emarketgo.databinding.FragmentOrderDetailBinding;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.models.OrderProduct;
 import com.group05.emarketgo.viewmodels.AddressViewModel;
-import com.group05.emarketgo.viewmodels.OrderViewModel;
+import com.group05.emarketgo.viewmodels.OrderDetailViewModel;
 import com.group05.emarketgo.views.activities.MapActivity;
 import com.group05.emarketgo.views.adapters.ProductItemAdapter;
 
@@ -30,22 +28,19 @@ import java.util.List;
 
 public class OrderDetailFragment extends Fragment {
 
-    private Context context;
+
     private static FirebaseAuth mAuth;
 
-    private RadioButton rbPending;
-    private RadioButton rbOnProcess;
-    private RadioButton rbDelivered;
+
+    private OrderDetailViewModel orderDetailViewModel;
 
     private Order order;
 
-    private OrderViewModel orderViewModel;
 
     private AddressViewModel addressViewModel;
 
     private FragmentOrderDetailBinding binding;
 
-    private TextView textView;
 
     public OrderDetailFragment() {
     }
@@ -76,13 +71,22 @@ public class OrderDetailFragment extends Fragment {
             fragmentManager.popBackStack();
         });
 
-        orderViewModel = new OrderViewModel();
+        orderDetailViewModel = new OrderDetailViewModel(order.getId());
+        orderDetailViewModel.getStatus(order.getId()).thenAccept(status -> {
+            if (status == Order.OrderStatus.PENDING) {
+                binding.btnTakeItem.setText(R.string.fragment_order_details_button_take_item);
+            } else {
+                binding.btnTakeItem.setText(R.string.fragment_order_details_button_check_order);
+            }
+        });
 
         List<OrderProduct> products = order.getProducts();
 
         addressViewModel = new ViewModelProvider(requireActivity()).get(AddressViewModel.class);
         addressViewModel.getUserAddress().observe(getViewLifecycleOwner(), userAddress -> {
         });
+
+
 
         binding.btnTakeItem.setOnClickListener(v -> {
             Intent intent = new Intent(context, MapActivity.class);
