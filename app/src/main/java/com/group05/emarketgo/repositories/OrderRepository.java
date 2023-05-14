@@ -1,6 +1,8 @@
 package com.group05.emarketgo.repositories;
 
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -10,6 +12,8 @@ import com.group05.emarketgo.models.CartItem;
 import com.group05.emarketgo.models.Order;
 import com.group05.emarketgo.models.OrderProduct;
 import com.group05.emarketgo.models.Product;
+import com.group05.emarketgo.models.Address;
+import com.group05.emarketgo.models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +38,6 @@ public class OrderRepository {
     private OrderRepository() {
     }
 
-    // get all orders of current user without status
     public CompletableFuture<List<Order>> getAll() {
         CompletableFuture<List<Order>> future = new CompletableFuture<>();
 
@@ -48,9 +51,7 @@ public class OrderRepository {
             if (task.isSuccessful()) {
                 var userDoc = task.getResult();
                 String email = userDoc.getString("email");
-                //get all orders have this user reference
                 var userRef = db.collection("deliverymen").document(user.getUid());
-                // generate query
                 Query query = db.collection("orders").whereEqualTo("deliverymanRef", userRef);
 
                 query.get().addOnCompleteListener(task1 -> {
@@ -67,10 +68,12 @@ public class OrderRepository {
                             String id = doc.getId();
                             Date updatedAt = doc.getDate("updatedAt");
                             Date createdAt = doc.getDate("createdAt");
-                            double totalPrice = doc.getDouble("totalPrice");
+                            double totalPrice = 0.0;
+                            if (doc.contains("totalPrice") && doc.get("totalPrice") != null) {
+                                totalPrice = doc.getDouble("totalPrice");
+                            }
                             Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
                             Order order = new Order(id, currentStatus, updatedAt, createdAt, totalPrice);
-                            //get all cart items of this order
                             Query query1 = db.collection("orders").document(id).collection("products");
                             query1.get().addOnCompleteListener(task2 -> {
                                 if (task2.isSuccessful()) {
@@ -113,65 +116,50 @@ public class OrderRepository {
             future.complete(new ArrayList<>());
             return future;
         }
-        db.collection("deliverymen").document(user.getUid()).get().addOnCompleteListener(task -> {
+        Query query = db.collection("orders").whereEqualTo("status", status.toString());
+        query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                var userDoc = task.getResult();
-                String email = userDoc.getString("email");
-                //get all orders have this user reference
-                var userRef = db.collection("deliverymen").document(user.getUid());
-                // generate query
-                Query query = db.collection("orders").whereEqualTo("deliverymanRef", userRef).whereEqualTo("status", status.toString());
+                var orderDocs = task.getResult().getDocuments();
+                if (orderDocs.size() == 0) {
+                    future.complete(new ArrayList<>());
+                    return;
+                }
+                List<Order> orders = new ArrayList<>();
+                for (var doc : orderDocs) {
+                    String id = doc.getId();
+                    Date updatedAt = doc.getDate("updatedAt");
+                    Date createdAt = doc.getDate("createdAt");
+                    double totalPrice = doc.getDouble("totalPrice");
+                    Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
+                    Order order = new Order(id, currentStatus, updatedAt, createdAt, totalPrice);
+                    Query query1 = db.collection("orders").document(id).collection("products");
+                    query1.get().addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            var orderItemDocs = task2.getResult().getDocuments();
 
+                            if (orderItemDocs.size() == 0) {
+                                future.complete(new ArrayList<>());
+                                return;
+                            }
 
-                query.get().addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        var orderDocs = task1.getResult().getDocuments();
+                            for (var doc1 : orderItemDocs) {
+                                DocumentReference productRef = doc1.getDocumentReference("productRef");
+                                int quantity = doc1.getLong("quantity").intValue();
 
-                        if (orderDocs.size() == 0) {
-                            future.complete(new ArrayList<>());
-                            return;
-                        }
-
-                        List<Order> orders = new ArrayList<>();
-                        for (var doc : orderDocs) {
-                            String id = doc.getId();
-                            Date updatedAt = doc.getDate("updatedAt");
-                            Date createdAt = doc.getDate("createdAt");
-                            double totalPrice = doc.getDouble("totalPrice");
-                            Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
-                            Order order = new Order(id, currentStatus, updatedAt, createdAt, totalPrice);
-                            //get all cart items of this order
-                            Query query1 = db.collection("orders").document(id).collection("products");
-                            query1.get().addOnCompleteListener(task2 -> {
-                                if (task2.isSuccessful()) {
-                                    var orderItemDocs = task2.getResult().getDocuments();
-
-                                    if (orderItemDocs.size() == 0) {
-                                        future.complete(new ArrayList<>());
-                                        return;
+                                productRef.get().addOnCompleteListener(productTask -> {
+                                    if (productTask.isSuccessful()) {
+                                        Product product = productTask.getResult().toObject(Product.class);
+                                        order.addOrderProduct(new OrderProduct(product, quantity, id));
                                     }
-
-                                    for (var doc1 : orderItemDocs) {
-                                        DocumentReference productRef = doc1.getDocumentReference("productRef");
-                                        int quantity = doc1.getLong("quantity").intValue();
-
-                                        productRef.get().addOnCompleteListener(productTask -> {
-                                            if (productTask.isSuccessful()) {
-                                                Product product = productTask.getResult().toObject(Product.class);
-                                                order.addOrderProduct(new OrderProduct(product, quantity, id));
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                            orders.add(order);
+                                });
+                            }
                         }
-                        future.complete(orders);
-                    }
-                });
+                    });
+                    orders.add(order);
+                }
+                future.complete(orders);
             }
         });
-
         return future;
     }
 
@@ -248,6 +236,156 @@ public class OrderRepository {
                         }
                     });
                 }
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Void> updateDeliverymanRef(String orderId, String deliverymanId) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        DocumentReference deliverymanRef = db.collection("deliverymen").document(deliverymanId);
+        db.collection("orders").document(orderId).update("deliverymanRef", deliverymanRef).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                future.complete(null);
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Void> addDeliverymanAddress(String orderId, Address deliverymanAddress) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        Map<String, Object> addressMap = new HashMap<>();
+        deliverymanAddress.toMap().forEach(addressMap::put);
+
+        db.collection("orders")
+                .document(orderId)
+                .collection("deliverymanAddress")
+                .add(addressMap)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        future.complete(null);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+
+        return future;
+    }
+
+
+
+
+    public CompletableFuture<User> getUserByOrderId(String orderId) {
+        CompletableFuture<User> future = new CompletableFuture<>();
+        db.collection("orders").document(orderId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                var doc = task.getResult();
+                DocumentReference userRef = doc.getDocumentReference("userRef");
+
+                if (userRef != null) {
+                    userRef.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            var data = task1.getResult();
+                            String userFullName = data.getString("fullName");
+                            String userPhoneNumber = data.getString("phoneNumber");
+                            User user = new User();
+                            user.setFullName(userFullName);
+                            user.setPhoneNumber(userPhoneNumber);
+                            future.complete(user);
+                        } else {
+                            future.completeExceptionally(task1.getException());
+                        }
+                    });
+                } else {
+                    future.completeExceptionally(new Exception("User reference not found."));
+                }
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Address> getAddressByOrderId(String orderId) {
+        CompletableFuture<Address> future = new CompletableFuture<>();
+        db.collection("orders").document(orderId).collection("address").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                var addressDocs = task.getResult().getDocuments();
+                if (addressDocs.size() == 0) {
+                    future.complete(null);
+                    return;
+                }
+                var defaultAddress = addressDocs.stream().filter(addressDoc -> {
+                    var address = addressDoc.toObject(Address.class);
+                    return address.getIsDefault();
+                }).findFirst();
+                var addressDoc = addressDocs.get(0);
+                if (defaultAddress.isPresent()) {
+                    addressDoc = defaultAddress.get();
+                }
+                var address = addressDoc.toObject(Address.class);
+                future.complete(address);
+            } else {
+                future.completeExceptionally(task.getException());
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Order> getOrderById(String id) {
+        CompletableFuture<Order> future = new CompletableFuture<>();
+        db.collection("orders").document(id).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                var doc = task.getResult();
+                Log.d("Order", doc.toString());
+
+                Date updatedAt = doc.getDate("updatedAt");
+                Date createdAt = doc.getDate("createdAt");
+                double totalPrice = doc.getDouble("totalPrice");
+                Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
+                Order order = new Order(id, currentStatus, updatedAt, createdAt, totalPrice);
+                //get all cart items of this order
+                Query query1 = db.collection("orders").document(id).collection("products");
+                query1.get().addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful()) {
+                        var orderItemDocs = task2.getResult().getDocuments();
+
+                        if (orderItemDocs.size() == 0) {
+                            future.complete(new Order());
+                            return;
+                        }
+
+                        for (var doc1 : orderItemDocs) {
+                            DocumentReference productRef = doc1.getDocumentReference("productRef");
+                            int quantity = doc1.getLong("quantity").intValue();
+
+                            productRef.get().addOnCompleteListener(productTask -> {
+                                if (productTask.isSuccessful()) {
+                                    Product product = productTask.getResult().toObject(Product.class);
+                                    order.addOrderProduct(new OrderProduct(product, quantity, id));
+                                    future.complete(order);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        return future;
+    }
+
+    public CompletableFuture<Order.OrderStatus> getOrderStatus(String orderId) {
+        CompletableFuture<Order.OrderStatus> future = new CompletableFuture<>();
+        db.collection("orders").document(orderId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                var doc = task.getResult();
+                Order.OrderStatus currentStatus = Order.OrderStatus.valueOf(doc.getString("status"));
+                future.complete(currentStatus);
             } else {
                 future.completeExceptionally(task.getException());
             }
