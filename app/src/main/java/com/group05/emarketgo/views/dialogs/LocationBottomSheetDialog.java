@@ -125,7 +125,6 @@ public class LocationBottomSheetDialog extends BottomSheetDialog {
             orderDetailViewModel.setIsDeliveringOrder(true);
             orderViewModel.updateOrderDeliverymanByOrderId(orderId, deliverymanRef);
 
-            Log.d("LocationBottomSheet", "updateAddress: " + deliverymanAddress.getAddressLine(0));
             String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
             com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
                     deliverymanAddress.getAddressLine(0),

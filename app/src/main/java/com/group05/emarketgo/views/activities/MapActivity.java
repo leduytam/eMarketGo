@@ -239,6 +239,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         binding.btnDeliveringOrder.setOnClickListener(v -> {
             locationBottomSheetDialog.show();
         });
+
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                LatLng center = mMap.getCameraPosition().target;
+                double latitude = center.latitude;
+                double longitude = center.longitude;
+
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    if (addresses != null && !addresses.isEmpty()) {
+                        Address deliverymanAddress = addresses.get(0);
+                        String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
+                        com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
+                                deliverymanAddress.getAddressLine(0),
+                                addressArray[0],
+                                addressArray[1],
+                                addressArray[2],
+                                addressArray[3],
+                                "",
+                                deliverymanAddress.getCountryName(),
+                                deliverymanAddress.getPostalCode(),
+                                deliverymanAddress.getLatitude(),
+                                deliverymanAddress.getLongitude(),
+                                false
+                        );
+                        orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
+                        locationBottomSheetDialog.setOrderAddress(deliverymanAddress);
+
+                        setCurrentAddress(deliverymanAddress);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     void setCurrentAddress(Address address) {
@@ -259,5 +296,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOM));
         locationBottomSheetDialog.setDeliverymanAddress(address);
     }
-
 }

@@ -8,7 +8,12 @@ public final class DeliverymenSchema {
     // Document fields
     public static final String DOCUMENT_ID = "document_id";
     public static final String EMAIL = "email";
+
     public static final String PASSWORD = "password";
+
+    public static final String PHONE_NUMBER = "phoneNumber";
+
+    public static final String FULL_NAME = "fullName";
     public static final String IS_DEFAULT = "isDefault";
     public static final String ADDRESSES = "addresses";
 

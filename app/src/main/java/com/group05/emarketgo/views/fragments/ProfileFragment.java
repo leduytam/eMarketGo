@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.group05.emarketgo.R;
+import com.group05.emarketgo.databinding.FragmentOrderDetailBinding;
+import com.group05.emarketgo.databinding.FragmentProfileBinding;
+import com.group05.emarketgo.viewmodels.DeliverymanViewModel;
 import com.group05.emarketgo.views.activities.AuthenticationActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -21,11 +24,11 @@ public class ProfileFragment extends Fragment {
     private Button btnLogout;
     private Context context;
 
-    private LinearLayout editProfileLayout;
-    private LinearLayout allHistoryLayout;
-    private LinearLayout helpLayout;
-    private LinearLayout aboutLayout;
+    private DeliverymanViewModel deliverymanViewModel;
+
     private static FirebaseAuth mAuth;
+
+    private FragmentProfileBinding binding;
     private MaterialAlertDialogBuilder alertDialogBuilder;
 
     public ProfileFragment() {
@@ -45,15 +48,23 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
         context = getContext();
 
-        btnLogout = view.findViewById(R.id.btnLogout);
-        btnLogout.setOnClickListener(v -> onLogout());
+        deliverymanViewModel = new DeliverymanViewModel();
+
+        deliverymanViewModel.getDeliverymanById(mAuth.getCurrentUser().getUid());
+
+        deliverymanViewModel.getDeliveryMan().observe(getViewLifecycleOwner(), deliveryMan -> {
+            binding.tvFullName.setText(deliveryMan.getFullName());
+            binding.tvPhoneNumber.setText(deliveryMan.getPhoneNumber());
+        });
 
 
+        binding.btnLogout.setOnClickListener(v -> onLogout());
 
-        return view;
+        return binding.getRoot();
+
     }
 
     private void onLogout() {
