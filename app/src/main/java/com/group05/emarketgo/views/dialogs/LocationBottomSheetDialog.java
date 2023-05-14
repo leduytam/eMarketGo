@@ -3,7 +3,6 @@ package com.group05.emarketgo.views.dialogs;
 import android.content.Context;
 import android.location.Address;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -139,6 +138,8 @@ public class LocationBottomSheetDialog extends BottomSheetDialog {
                     deliverymanAddress.getLongitude(),
                     false
             );
+
+
 
 
             orderViewModel.addDeliverymanAddressByOrderId(orderId, address);

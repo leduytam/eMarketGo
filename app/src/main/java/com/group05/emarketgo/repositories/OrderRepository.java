@@ -255,28 +255,6 @@ public class OrderRepository {
         });
         return future;
     }
-//    public CompletableFuture<Void> addDeliverymanAddress(String orderId, Address deliverymanAddress) {
-//        CompletableFuture<Void> future = new CompletableFuture<>();
-//
-//        Map<String, Object> addressMap = new HashMap<>();
-//        deliverymanAddress.toMap().forEach(addressMap::put);
-//
-//
-//        db.collection("orders")
-//                .document(orderId)
-//                .collection("deliverymanAddress")
-//                .document("address")
-//                .set(addressMap)
-//                .addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        future.complete(null);
-//                    } else {
-//                        future.completeExceptionally(task.getException());
-//                    }
-//                });
-//
-//        return future;
-//    }
 
     public CompletableFuture<Void> addDeliverymanAddress(String orderId, Address deliverymanAddress) {
         CompletableFuture<Void> future = new CompletableFuture<>();

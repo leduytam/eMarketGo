@@ -62,7 +62,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private String orderId;
 
-    private Boolean isDeliveringOrder = false;
+    private Boolean isDelivering = false;
+
+    final MapActivity outerClass = this;
 
 
     @Override
@@ -101,7 +103,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         orderDetailViewModel.isDeliveringOrder().observe(this, isDeliveringOrder -> {
-            setIsDeliveredOrder(isDeliveringOrder);
+            setIsDeliveringOrder(isDeliveringOrder);
             if (isDeliveringOrder) {
                 binding.btnDeliveringOrder.setVisibility(View.GONE);
                 binding.btnDeliveredOrder.setVisibility(View.VISIBLE);
@@ -111,12 +113,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        binding.btnDeliveredOrder.setOnClickListener(v -> {
+        binding.btnDeliveredOrder.setOnClickListener(v ->
+
+        {
             orderViewModel.updateStatus(orderId, Order.OrderStatus.DELIVERED);
             finish();
         });
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -127,8 +132,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    public void setIsDeliveredOrder(Boolean isDeliveringOrder) {
-        this.isDeliveringOrder = isDeliveringOrder;
+    public void setIsDeliveringOrder(Boolean isDelivering) {
+        this.isDelivering = isDelivering;
     }
 
     private void getFromLocationLongLat(double latitude, double longitude) {
@@ -243,38 +248,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                LatLng center = mMap.getCameraPosition().target;
-                double latitude = center.latitude;
-                double longitude = center.longitude;
+                        LatLng center = mMap.getCameraPosition().target;
+                        double latitude = center.latitude;
+                        double longitude = center.longitude;
 
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                            if (addresses != null && !addresses.isEmpty()) {
+                                Address deliverymanAddress = addresses.get(0);
+                                String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
+                                Log.d("Address", deliverymanAddress.getAddressLine(0) + " " + addressArray.toString());
 
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                    if (addresses != null && !addresses.isEmpty()) {
-                        Address deliverymanAddress = addresses.get(0);
-                        String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
-                        com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
-                                deliverymanAddress.getAddressLine(0),
-                                addressArray[0],
-                                addressArray[1],
-                                addressArray[2],
-                                addressArray[3],
-                                "",
-                                deliverymanAddress.getCountryName(),
-                                deliverymanAddress.getPostalCode(),
-                                deliverymanAddress.getLatitude(),
-                                deliverymanAddress.getLongitude(),
-                                false
-                        );
-                        orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
-                        locationBottomSheetDialog.setOrderAddress(deliverymanAddress);
+                                com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
+                                        deliverymanAddress.getAddressLine(0),
+                                        addressArray[0],
+                                        addressArray[1],
+                                        addressArray[2],
+                                        addressArray[3],
+                                        "",
+                                        deliverymanAddress.getCountryName(),
+                                        deliverymanAddress.getPostalCode(),
+                                        deliverymanAddress.getLatitude(),
+                                        deliverymanAddress.getLongitude(),
+                                        false
+                                );
 
-                        setCurrentAddress(deliverymanAddress);
+                                orderDetailViewModel.getAddress(orderId).thenAccept(addressModel -> {
+                                    var currentAddress = addressModel.getAddress();
+                                    if (!currentAddress.equals(address.getAddress())) {
+                                        orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
+                                        locationBottomSheetDialog.setOrderAddress(deliverymanAddress);
+                                        setCurrentAddress(deliverymanAddress);
+                                    }
+                                });
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         });
     }
 
