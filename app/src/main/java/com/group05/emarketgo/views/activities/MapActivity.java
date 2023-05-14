@@ -198,8 +198,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-
-        orderDetailViewModel = new OrderDetailViewModel(orderId);
         orderDetailViewModel.getUser(orderId).thenAccept(userModel -> {
             if (userModel != null) {
                 locationBottomSheetDialog.setCustomerName(userModel.getFullName());
@@ -248,44 +246,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                        LatLng center = mMap.getCameraPosition().target;
-                        double latitude = center.latitude;
-                        double longitude = center.longitude;
+                orderDetailViewModel.isDeliveringOrder().observe(outerClass, isDeliveringOrder -> {
+                            if (isDeliveringOrder) {
+                                LatLng center = mMap.getCameraPosition().target;
+                                double latitude = center.latitude;
+                                double longitude = center.longitude;
 
-                        try {
-                            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                            if (addresses != null && !addresses.isEmpty()) {
-                                Address deliverymanAddress = addresses.get(0);
-                                String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
-                                Log.d("Address", deliverymanAddress.getAddressLine(0) + " " + addressArray.toString());
+                                try {
+                                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                                    if (addresses != null && !addresses.isEmpty()) {
+                                        Address deliverymanAddress = addresses.get(0);
+                                        String[] addressArray = deliverymanAddress.getAddressLine(0).split(",");
 
-                                com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
-                                        deliverymanAddress.getAddressLine(0),
-                                        addressArray[0],
-                                        addressArray[1],
-                                        addressArray[2],
-                                        addressArray[3],
-                                        "",
-                                        deliverymanAddress.getCountryName(),
-                                        deliverymanAddress.getPostalCode(),
-                                        deliverymanAddress.getLatitude(),
-                                        deliverymanAddress.getLongitude(),
-                                        false
-                                );
+                                        com.group05.emarketgo.models.Address address = new com.group05.emarketgo.models.Address(
+                                                deliverymanAddress.getAddressLine(0),
+                                                addressArray[0],
+                                                addressArray[1],
+                                                addressArray[2],
+                                                addressArray[3],
+                                                "",
+                                                deliverymanAddress.getCountryName(),
+                                                deliverymanAddress.getPostalCode(),
+                                                deliverymanAddress.getLatitude(),
+                                                deliverymanAddress.getLongitude(),
+                                                false
+                                        );
 
-                                orderDetailViewModel.getAddress(orderId).thenAccept(addressModel -> {
-                                    var currentAddress = addressModel.getAddress();
-                                    if (!currentAddress.equals(address.getAddress())) {
-                                        orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
-                                        locationBottomSheetDialog.setOrderAddress(deliverymanAddress);
-                                        setCurrentAddress(deliverymanAddress);
+                                        orderDetailViewModel.getAddress(orderId).thenAccept(addressModel -> {
+                                            var currentAddress = addressModel.getAddress();
+                                            if (!currentAddress.equals(address.getAddress())) {
+                                                orderViewModel.addDeliverymanAddressByOrderId(orderId, address);
+                                                locationBottomSheetDialog.setOrderAddress(deliverymanAddress);
+                                                setCurrentAddress(deliverymanAddress);
+                                            }
+                                        });
                                     }
-                                });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-                    }
+                );
+            }
         });
     }
 
